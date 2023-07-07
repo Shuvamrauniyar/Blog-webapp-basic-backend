@@ -5,42 +5,64 @@ require('dotenv').config();
 const PORT = process.env.PORT;
 
 const bodyParser = require('body-parser');
-const upload = require('./config/multer_config');
+// const upload = require('./config/multer_config');
 const app = express();
 
 const User = require('./models/user');
 const BlogPost = require('./models/blogPost');
 
+const {getBlog} = require('./repository/blog-repo');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
+const apiRoutes = require('./routes/index');
+
 const startServer = () =>{
     app.listen(PORT, async()=>{
         console.log(`Server started at ${PORT}`);
-        // await dbConnect();
+         await dbConnect();
         console.log('Database connected Successfully');
-        // const response = await BlogPost.create({
+       
+        app.use('/api',apiRoutes);
+    
+      
+    });
+}
+startServer();
+
+/*
+ // const response = await BlogPost.create({
         //     content: 'This is my first blog post',
         //     user: '64a71e18fd4e90d70bcba647'
         // });
         // console.log('response is ', response.user );
-        app.use(bodyParser.json());
-        app.use(express.urlencoded({extended: true}));
 
-        // try {
-            // app.post('/uploadFile',upload.single('image'),(req,res) => {
+
+          // app.post('/uploadFile',upload.single('image'),(req,res) => {
             //     console.log(req);
             //     res.send({
             //         filepath: req.file.path
             //     })
-            // })    
-           // app.use('/images', express.static('./uploads'));
+            // })  
 
+
+      //    app.use('/images', express.static('./uploads'));
+
+
+            app.get('/getImage/:filePath', async(req, res) => {
+            // console.log("hello "+req.body.filePath);
+            // const absoluteImagePath = await getBlog(req.params.filePAth);
+            console.log('hit at 3000');
+            //console.log(req.params.id);
+            res.send(req.params.id);
+          //  res.sendFile(req.params.filename);
+          });
         // } catch (error) {
         //     res.send({
         //         err:'Couldnot upload the file'
         //     })
         // }
-    });
-}
-startServer();
-
+*/
 
 
