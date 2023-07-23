@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    blogPosts: [{
+    blogPosts: [{ //this is not populating while hitting the post request for blog post 
         type: mongoose.Schema.Types.ObjectId,
         ref: 'BlogPost'
     }]
