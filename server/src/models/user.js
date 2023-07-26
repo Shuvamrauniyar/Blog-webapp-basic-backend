@@ -1,20 +1,11 @@
 const mongoose = require('mongoose');
+const {Schema, model} = mongoose;
 
-const userSchema = new mongoose.Schema({
-    email:{
-        type:String,
-        required: true,
-        unique:true
-    },
-    password:{
-        type: String,
-        required: true
-    },
-    blogPosts: [{ //this is not populating while hitting the post request for blog post 
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'BlogPost'
-    }]
-},{timestamps: true});
+const UserSchema = new Schema({
+  username: {type: String, required: true},
+  password: {type: String, required: true},
+});
 
-const User =  mongoose.model('User', userSchema);
-module.exports = User;
+const UserModel = model('User', UserSchema);
+
+module.exports = UserModel;

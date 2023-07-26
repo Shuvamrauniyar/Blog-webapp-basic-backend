@@ -1,5 +1,8 @@
 const express = require('express');
+const path = require('path');
+
 const dbConnect = require('./config/db_config');
+var cors = require ('cors');
 
 require('dotenv').config();
 const PORT = process.env.PORT;
@@ -8,6 +11,7 @@ const bodyParser = require('body-parser');
 // const upload = require('./config/multer_config');
 const app = express();
 
+app.use(cors());
 const User = require('./models/user');
 const BlogPost = require('./models/blogPost');
 
@@ -15,7 +19,8 @@ const {getBlog} = require('./repository/blog-repo');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
+// app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use('/src/uploads', express.static(path.join(__dirname, 'uploads')));
 const apiRoutes = require('./routes/index');
 
 const startServer = () =>{

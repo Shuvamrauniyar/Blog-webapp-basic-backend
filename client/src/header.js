@@ -13,6 +13,8 @@ export default function Header() {
       });
     });
   }, []);
+ 
+
 
   function logout() {
     fetch('http://localhost:4000/logout', {

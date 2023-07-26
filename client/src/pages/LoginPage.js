@@ -1,25 +1,27 @@
 import {useContext, useState} from "react";
 import {Navigate} from "react-router-dom";
 import {UserContext} from "../userContext";
-
+import axios from 'axios';
 export default function LoginPage() {
   const [username,setUsername] = useState('');
   const [password,setPassword] = useState('');
   const [redirect,setRedirect] = useState(false);
   const {setUserInfo} = useContext(UserContext);
+
   async function login(ev) {
     ev.preventDefault();
-    const response = await fetch('http://localhost:4000/login', {
-      method: 'POST',
-      body: JSON.stringify({username, password}),
-      headers: {'Content-Type':'application/json'},
-      credentials: 'include',
-    });
-    if (response.ok) {
-      response.json().then(userInfo => {
-        setUserInfo(userInfo);
+    const data = {
+      username: username,
+      password: password
+    }
+    const resp = await axios.post('http://localhost:4000/api/login',data);
+    if (resp.status === 200) {
+      // await  resp.then(userInfo => {
+        setUserInfo(resp.data);
         setRedirect(true);
-      });
+      // });
+      // console.log(resp.data);
+      // alert("Logged in successful");
     } else {
       alert('wrong credentials');
     }
